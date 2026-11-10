@@ -1,0 +1,70 @@
+[project]
+name = "financial-bot"
+version = "0.1.0"
+description = "PT-BR expense tracking agent (LangChain + OpenAI) with text, audio and receipt input"
+readme = "README.md"
+authors = [
+    { name = "Gabriel Valin", email = "gabrielvalincontato@gmail.com" }
+]
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "langchain>=1.4.9",
+    "langchain-openai>=1.7.4",
+    "langgraph-cli[inmem]>=0.4.42",
+    "openai>=3.46.0",
+    "pydantic-settings>=2.16.2",
+    "python-dotenv>=1.2.4",
+    "sqlalchemy>=2.1.8",
+    "tzdata>=2026.6",
+]
+
+[build-system]
+requires = ["uv_build>=0.13.7,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy>=2.4.1",
+    "pytest>=9.2.0",
+    "ruff>=0.17.4",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = ["ui"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+plugins = ["pydantic.mypy"]
+files = ["src"]
+
+[[tool.mypy.overrides]]
+module = ["langgraph.*", "langchain.*"]
+follow_untyped_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.basedpyright]
+# Editor type checker (Neovim). mypy strict is the CI gate; these rules only flag
+# the loose `Any` types that LangChain/LangGraph expose, so they are noise here.
+reportAny = false
+reportExplicitAny = false
+reportUnknownMemberType = false
+reportUnknownVariableType = false
+reportUnknownParameterType = false
+reportUnknownArgumentType = false
+reportUnknownLambdaType = false
+reportMissingTypeStubs = false
+# Style rules that fight the libraries' idioms (fluent builders, SQLAlchemy
+# `__tablename__`, LangGraph node signatures, ruff-formatted strings).
+reportUnusedCallResult = false
+reportUnannotatedClassAttribute = false
+reportUnusedParameter = false
+reportImplicitStringConcatenation = false

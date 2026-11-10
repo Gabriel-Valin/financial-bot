@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+data/
+.langgraph_api/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+ui/node_modules/
+ui/.next/
+ui/.env
+.DS_Store
+ui/tsconfig.tsbuildinfo
+
+# Local notes
+python-explain.md
